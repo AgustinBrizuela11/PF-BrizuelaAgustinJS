@@ -7,7 +7,7 @@ let productos = [
   { id: 12, nombre: "Protector vidrio templado", categoria: "accesorio", precio: 5, stock: 10, rutaImagen: "protector.jpg" },
 ]
 let carrito = []
-let carritoJSON = JSON.parse(localStorage.getItem("carrito"))
+let carritoJSON = JSON.parse(localStorage.getItem("carrito")) || [];
 
 if (carritoJSON) {
   carrito = carritoJSON
