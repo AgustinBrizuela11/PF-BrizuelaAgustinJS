@@ -3,31 +3,13 @@ async function obtenerProdutos(url) {
   const data = await res.json()
   return data
 }
-/*
-function programaPricipal() {
-
-  let productos = [  
-    { id: 2, nombre: "Iphone 12", categoria: "telefono", precio: 600, stock: 3, rutaImagen: "iphone12.jpg" },
-    { id: 3, nombre: "Iphone 13", categoria: "telefono", precio: 760, stock: 10, rutaImagen: "iphone13.jpg" },
-    { id: 5, nombre: "Iphone 14", categoria: "telefono", precio: 850, stock: 10, rutaImagen: "iphone14.jpg" },
-    { id: 7, nombre: "Iphone 14 Pro", categoria: "telefono", precio: 950, stock: 10, rutaImagen: "iphone14pro.jpg" },
-    { id: 9, nombre: "Funda (todos los modelos)", categoria: "accesorio", precio: 10, stock: 10, rutaImagen: "funda.jpg" },
-    { id: 12, nombre: "Protector vidrio templado", categoria: "accesorio", precio: 5, stock: 10, rutaImagen: "protector.jpg" },
-  ]
-
 
 let carritoJSON = JSON.parse(localStorage.getItem("carrito"));
 let carrito = carritoJSON ? carritoJSON : []
-let contenedor = document.getElementById("contenedor")
-
-renderizar(productos, contenedor, carrito)
-renderizarCarrito(carrito)
 
 let botonFinalizarCompra = document.getElementById("terminarCompra")
 botonFinalizarCompra.addEventListener("click", () => finalizarCompra(carrito))
 
-}
-*/
 obtenerProdutos('./json.json').then (data => renderizar(data))
 
 function renderizar(arrayDeElementos) {
@@ -54,7 +36,6 @@ function renderizar(arrayDeElementos) {
 
   })
 }
-const carrito = []
 function agregarAlCarrito(e) {
   const id = parseInt(e.target.id)
   obtenerProdutos('./json.json').then (arrayDeElementos => {
