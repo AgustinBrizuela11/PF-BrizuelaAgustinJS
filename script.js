@@ -1,3 +1,9 @@
+async function obtenerProdutos(url) {
+  const res = await fetch(url)
+  const data = await res.json()
+  return data
+}
+/*
 function programaPricipal() {
 
   let productos = [  
@@ -8,19 +14,8 @@ function programaPricipal() {
     { id: 9, nombre: "Funda (todos los modelos)", categoria: "accesorio", precio: 10, stock: 10, rutaImagen: "funda.jpg" },
     { id: 12, nombre: "Protector vidrio templado", categoria: "accesorio", precio: 5, stock: 10, rutaImagen: "protector.jpg" },
   ]
-console.log(productos)
 
-/* 
- let productos = []
- const urlLocal = './json.json'
- fetch(urlLocal)
-  .then(response => response.json())
-  .then(data =>{
-    productos = data.productos
-    console.log(productos)
-  }
-  )
-  */
+
 let carritoJSON = JSON.parse(localStorage.getItem("carrito"));
 let carrito = carritoJSON ? carritoJSON : []
 let contenedor = document.getElementById("contenedor")
@@ -32,11 +27,11 @@ let botonFinalizarCompra = document.getElementById("terminarCompra")
 botonFinalizarCompra.addEventListener("click", () => finalizarCompra(carrito))
 
 }
+*/
+obtenerProdutos('./json.json').then (data => renderizar(data))
 
-programaPricipal()
-
-function renderizar(arrayDeElementos, contenedor, carrito) {
-
+function renderizar(arrayDeElementos) {
+  const contenedor = document.getElementById("contenedor")
   contenedor.innerHTML = ""
   arrayDeElementos.forEach(producto => {
     let mensaje = "Unidades " + producto.stock
@@ -55,15 +50,16 @@ function renderizar(arrayDeElementos, contenedor, carrito) {
   `
     contenedor.appendChild(tarjetaProducto)
     let botonAgregarAlCarrito = document.getElementById(producto.id)
-    botonAgregarAlCarrito.addEventListener("click", () => agregarAlCarrito(arrayDeElementos, producto.id, carrito))
+    botonAgregarAlCarrito.addEventListener("click", agregarAlCarrito)
 
   })
 }
-
-function agregarAlCarrito(arrayDeElementos, id, carrito) {
-  
-  let productoBuscado = arrayDeElementos.find(producto => producto.id === id)
-  let productoCarrito = carrito.findIndex(producto => producto.id === id)
+const carrito = []
+function agregarAlCarrito(e) {
+  const id = parseInt(e.target.id)
+  obtenerProdutos('./json.json').then (arrayDeElementos => {
+  const productoBuscado = arrayDeElementos.find(producto => producto.id === id)
+  const productoCarrito = carrito.findIndex(producto => producto.id === id)
   
   if (productoCarrito !== -1) {
     carrito[productoCarrito].unidad++
@@ -80,6 +76,8 @@ function agregarAlCarrito(arrayDeElementos, id, carrito) {
   lanzarTosti()
   localStorage.setItem("carrito", JSON.stringify(carrito))
   renderizarCarrito(carrito)
+  })
+  
 }
 
 function renderizarCarrito(carritoJSON) {
@@ -110,12 +108,15 @@ function mostrarOcultar() {
 
 let input = document.getElementById("miInput")
 let boton = document.getElementById("miBoton")
-boton.addEventListener("click", () => filtrarYRenderizar(productos, input.value))
+boton.addEventListener("click", () => filtrarYRenderizar(input.value))
 
 
-function filtrarYRenderizar(arrayDeElementos, valorFiltro) {
-  let elementosFiltrados = arrayDeElementos.filter(elemento => elemento.nombre.toLowerCase().includes(valorFiltro.toLowerCase()))
-  renderizar(elementosFiltrados)
+function filtrarYRenderizar(valorFiltro) {
+  obtenerProdutos('./json.json').then (arrayDeElementos => {
+    let elementosFiltrados = arrayDeElementos.filter(elemento => elemento.nombre.toLowerCase().includes(valorFiltro.toLowerCase()))
+    renderizar(elementosFiltrados)
+  })
+
 }
 
 let botonesFiltros = document.getElementsByClassName("filtro")
@@ -124,8 +125,11 @@ for (const botonFiltro of botonesFiltros) {
 }
 
 function filtrarYRenderizarPorCategoria(e) {
-  let elementosFiltrados = productos.filter(producto => producto.categoria === e.target.value)
-  renderizar(elementosFiltrados)
+  obtenerProdutos('./json.json').then (productos => {
+    let elementosFiltrados = productos.filter(producto => producto.categoria === e.target.value)
+    renderizar(elementosFiltrados)
+  })
+ 
 }
 
 function lanzarAlert() {
