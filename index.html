@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <title>Tienda De Iphone</title>
 </head>
 
@@ -19,9 +20,13 @@
     <div id="productos">
         <div id="contenedor"></div>
       </div>
-      <div id="carrito" class="oculto"></div>
+      <div id="contenedorCarrito" class="oculto">
+        <div id="carrito"></div>
+        <button id="terminarCompra">FinalizarCompra</button>
+      </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="./script.js"></script>
 </body>
 
